@@ -1,0 +1,63 @@
+# ─── Laravel framework ────────────────────────────────────────────────────────
+/vendor
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*.php
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+
+# ─── Environment & secrets ────────────────────────────────────────────────────
+.env
+.env.backup
+.env.production
+.env.*.local
+
+# ─── IDE / editor / OS ────────────────────────────────────────────────────────
+.idea
+.vscode
+.fleet
+.nova
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+/storage/logs/*.log
+
+# ─── Project documentation that is NOT for the public repo ────────────────────
+COMPLETE_IMPLEMENTATION_GUIDE_TO_IMPLEMENT_SSAFARICOM_DARAJA_API_APPLICATION.md
+SAFARICOM_MPESA_IMPLEMENTATION_GUIDE.md
+SAFARICOM STK PUSH APPLICATION.txt
+Safaricom\ APIs.postman_collection_*.json
+*.postman_collection.json
+complete\ guide\ to\ get\ started\ and\ configure\ digital\ ocean.md
+converting\ development\ code\ to\ production\ code.md
+Digital\ Ocean\ Deployment\ Strategy.md
+digital\ ocean\ start\ up\ guide.md
+GITHUB\ strategy*.md
+
+# ─── Claude / AI assistant artifacts ──────────────────────────────────────────
+.claude/
+.claude.json
+CLAUDE.md
+**/CLAUDE.md
+.cursor/
+.aider*
+
+# ─── SQLite local DB ──────────────────────────────────────────────────────────
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# ─── Build & cache ────────────────────────────────────────────────────────────
+/.phpunit.cache
+/dist
