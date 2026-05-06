@@ -53,7 +53,13 @@ class MpesaController extends Controller
 
     public function stkQueryForm()
     {
-        return view('mpesa.stk-query');
+        $recentPushes = MpesaTransaction::where('api_type', 'stk_push')
+            ->whereNotNull('checkout_request_id')
+            ->latest()
+            ->limit(10)
+            ->get(['id', 'checkout_request_id', 'phone_number', 'amount', 'status', 'created_at']);
+
+        return view('mpesa.stk-query', compact('recentPushes'));
     }
 
     public function stkQuery(Request $request)
@@ -146,9 +152,54 @@ class MpesaController extends Controller
         return back()->with('mpesa_response', $response);
     }
 
-    public function history()
+    public function history(Request $request)
     {
-        $transactions = MpesaTransaction::latest()->paginate(15);
+        $query = MpesaTransaction::latest();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('phone_number', 'like', "%{$search}%")
+                  ->orWhere('api_type', 'like', "%{$search}%")
+                  ->orWhere('status', 'like', "%{$search}%")
+                  ->orWhere('checkout_request_id', 'like', "%{$search}%")
+                  ->orWhere('result_code', 'like', "%{$search}%");
+            });
+        }
+
+        $transactions = $query->paginate(10)->withQueryString();
+
         return view('mpesa.history', compact('transactions'));
+    }
+
+    public function show(MpesaTransaction $transaction)
+    {
+        return view('mpesa.show', compact('transaction'));
+    }
+
+    public function edit(MpesaTransaction $transaction)
+    {
+        return view('mpesa.edit', compact('transaction'));
+    }
+
+    public function update(Request $request, MpesaTransaction $transaction)
+    {
+        $data = $request->validate([
+            'status'      => ['required', 'in:pending,success,failed'],
+            'result_code' => ['nullable', 'string', 'max:10'],
+            'result_desc' => ['nullable', 'string', 'max:500'],
+            'phone_number'=> ['nullable', 'string', 'max:20'],
+            'amount'      => ['nullable', 'numeric', 'min:0'],
+        ]);
+
+        $transaction->update($data);
+
+        return redirect()->route('history')->with('flash_success', "Transaction #{$transaction->id} updated successfully.");
+    }
+
+    public function destroy(MpesaTransaction $transaction)
+    {
+        $transaction->delete();
+
+        return redirect()->route('history')->with('flash_success', "Transaction #{$transaction->id} deleted.");
     }
 }

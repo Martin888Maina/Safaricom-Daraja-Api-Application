@@ -20,4 +20,9 @@ Route::post('/b2c-payment', [MpesaController::class, 'b2cPayment'])->name('b2c.s
 
 Route::get('/history', [MpesaController::class, 'history'])->name('history');
 
+Route::get('/transactions/{transaction}',       [MpesaController::class, 'show'])->name('transactions.show');
+Route::get('/transactions/{transaction}/edit',  [MpesaController::class, 'edit'])->name('transactions.edit');
+Route::patch('/transactions/{transaction}',     [MpesaController::class, 'update'])->name('transactions.update');
+Route::delete('/transactions/{transaction}',    [MpesaController::class, 'destroy'])->name('transactions.destroy');
+
 Route::post('/mpesa/callback', [CallbackController::class, 'handle'])->name('mpesa.callback');
