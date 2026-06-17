@@ -143,7 +143,7 @@ resources/views/
 
 ## Live Demo
 
-> Link will be added after DigitalOcean deployment.
+> https://mpesa.martinmaina.dev/
 
 ---
 
